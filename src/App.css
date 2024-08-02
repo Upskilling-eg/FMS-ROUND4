@@ -4,24 +4,40 @@
   background-position: center center;
 }
 .bg-overlay {
-  background: linear-gradient(45deg,rgba(47, 140, 96, 0.5), rgba(0, 0, 0, 0.5));
+  background: linear-gradient(
+    45deg,
+    rgba(47, 140, 96, 0.5),
+    rgba(0, 0, 0, 0.5)
+  );
 }
-.headerContainer{
+.headerContainer {
   background-image: url(../src/assets/images/header-bg-svg.svg);
   background-size: cover;
   background-position: center center;
-  color:#fff
+  color: #fff;
 }
-.sidebarContainer .ps-sidebar-container{
-background-color: #1F263E;
-height: 100vh;
+.sidebarContainer .ps-sidebar-container {
+  background-color: #1f263e;
+  height: 100vh;
 }
-.sidebarContainer .ps-menu-button{
-  color:#fff !important
+.sidebarContainer .ps-menu-button {
+  color: #fff !important;
 }
-.sidebarContainer .ps-menu-button:hover{
+.sidebarContainer .ps-menu-button:hover {
   background-color: rgba(47, 140, 96, 0.5) !important;
 }
-.sidebarContainer .firstItem .ps-menu-button:hover{
-  background-color: transparent !important
+.sidebarContainer .firstItem .ps-menu-button:hover {
+  background-color: transparent !important;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
 }
