@@ -33,8 +33,8 @@ function App() {
       children: [
         { index: true, element: <Login saveLoginData={saveLoginData} /> },
         { path: "login", element: <Login saveLoginData={saveLoginData} /> },
-        { path: "forgetPass", element: <ForgetPass /> },
-        { path: "resetPass", element: <ResetPass /> },
+        { path: "forget-password", element: <ForgetPass /> },
+        { path: "reset-password", element: <ResetPass /> },
         { path: "register", element: <Register /> },
       ],
     },

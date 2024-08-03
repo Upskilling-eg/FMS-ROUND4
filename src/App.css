@@ -11,7 +11,9 @@
   );
 }
 .headerContainer {
-  background-image: url(../src/assets/images/header-bg-svg.svg);
+  border-radius: 1rem;
+  background-image: url("../src/assets/images//header-circles.svg"),
+    linear-gradient(90deg, rgba(21, 128, 61, 1) 31%, rgba(22, 163, 74, 1) 78%);
   background-size: cover;
   background-position: center center;
   color: #fff;

@@ -1,54 +1,52 @@
 import React from "react";
 import { useForm } from "react-hook-form";
-import { Link, useNavigate } from "react-router-dom";
+import styles from "../../auth.module.css";
 import { toast } from "react-toastify";
 import axios from "axios";
-import styles from "../auth.module.css";
 import { USERS_URLS } from "../../../../constants/END_POINTS";
+import { useNavigate } from "react-router-dom";
+import { EmailValidation } from "../../../../constants/VALIDATIONS";
 
 export default function ForgetPass() {
   const navigate = useNavigate();
   const {
     register,
-    formState: { errors, isSubmitting },
     handleSubmit,
+    formState: { errors, isSubmitting },
   } = useForm();
 
-  let onSubmit = async (data) => {
+  const onSubmit = async (data) => {
+    console.log("hello");
     try {
       let response = await axios.post(USERS_URLS.resetRequest, data);
       console.log(response);
-      toast.success("OTP is sent to your account");
-      navigate("/resetPass");
+      toast.success(response?.data?.message || "OTP is sent to your account");
+      navigate("/reset-password");
     } catch (error) {
-      toast.error(error.response.data.message);
+      toast.error(error?.response?.data?.message);
     }
   };
+
+  console.log({ errors });
   return (
     <>
       <form onSubmit={handleSubmit(onSubmit)}>
-        <div className={styles["form-header"]}>
-          <h3 className="">Request Reset Password</h3>
-          <p>Please enter your email and check your inbox</p>
+        <div class={styles["form-header"]}>
+          <h3>Request Reset Password</h3>
+          <p>Welcome Back! Please Enter your details</p>
         </div>
-        <div className="mb-5">
-          <div className="input-group ">
+        <div className="input-group mb-3">
+          <div className="input-group mb-1">
             <span className="input-group-text" id="basic-addon1">
               <i className="fa fa-envelope" aria-hidden="true"></i>
             </span>
             <input
-              type="email"
+              type="text"
               className="form-control"
               placeholder="Enter your E-mail"
               aria-label="email"
               aria-describedby="basic-addon1"
-              {...register("email", {
-                required: "Email is required",
-                pattern: {
-                  value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
-                  message: "Email should be valid mail",
-                },
-              })}
+              {...register("email", EmailValidation)}
             />
           </div>
           {errors.email && (
@@ -61,7 +59,7 @@ export default function ForgetPass() {
           className="btn btn-success d-block w-100 my-3"
           disabled={isSubmitting}
         >
-          Reset Request
+          Request Reset
         </button>
       </form>
     </>

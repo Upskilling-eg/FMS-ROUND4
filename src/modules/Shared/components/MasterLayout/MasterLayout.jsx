@@ -10,7 +10,7 @@ export default function MasterLayout({ loginData }) {
         <div className="bg-danger">
           <SideBar />
         </div>
-        <div className="w-100">
+        <div className="w-100 px-3">
           <Navbar loginData={loginData} />
           <Outlet />
         </div>
