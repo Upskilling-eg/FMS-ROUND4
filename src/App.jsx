@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import reactLogo from "./assets/react.svg";
 import viteLogo from "/vite.svg";
 import "./App.css";
@@ -17,13 +17,9 @@ import Notfound from "./modules/Shared/components/Notfound/Notfound";
 import { ToastContainer } from "react-toastify";
 import { jwtDecode } from "jwt-decode";
 import ProtectedRoute from "./modules/Shared/components/ProtectedRoute/ProtectedRoute";
+import RecipeData from "./modules/Recipes/components/RecipeData/RecipeData";
+import VerifyAccount from "./modules/Authentication/components/VerifyAccount/VerifyAccount";
 function App() {
-  const [loginData, setLoginData] = useState(null);
-  let saveLoginData = () => {
-    let encodedToken = localStorage.getItem("token");
-    let decodedToken = jwtDecode(encodedToken);
-    setLoginData(decodedToken);
-  };
 
   const routes = createBrowserRouter([
     {
@@ -31,25 +27,28 @@ function App() {
       element: <AuthLayout />,
       errorElement: <Notfound />,
       children: [
-        { index: true, element: <Login saveLoginData={saveLoginData} /> },
-        { path: "login", element: <Login saveLoginData={saveLoginData} /> },
+        { index: true, element: <Login /> },
+        { path: "login", element: <Login/> },
         { path: "forget-password", element: <ForgetPass /> },
         { path: "reset-password", element: <ResetPass /> },
         { path: "register", element: <Register /> },
+        { path: "verify-account", element: <VerifyAccount /> },
+
       ],
     },
     {
       path: "dashboard",
       element: (
         <ProtectedRoute>
-          <MasterLayout loginData={loginData} />
-        </ProtectedRoute>
+          <MasterLayout />
+      </ProtectedRoute>
       ),
       errorElement: <Notfound />,
       children: [
         { index: true, element: <Home /> },
         { path: "home", element: <Home /> },
         { path: "recipesList", element: <RecipesList /> },
+        { path: "recipe-data", element: <RecipeData /> },
         { path: "categoriesList", element: <CategoriesList /> },
         { path: "users", element: <UsersList /> },
       ],

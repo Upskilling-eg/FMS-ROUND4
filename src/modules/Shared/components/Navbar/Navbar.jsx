@@ -1,6 +1,8 @@
-import React from "react";
+import React, { useContext } from "react";
+import { AuthContext } from "../../../../context/AuthContext";
 
-export default function Navbar({ loginData }) {
+export default function Navbar() {
+  let { loginData } = useContext(AuthContext);
   return (
     <>
       <nav className="navbar navbar-expand-lg navbar-light bg-light">

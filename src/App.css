@@ -22,6 +22,10 @@
   background-color: #1f263e;
   height: 100vh;
 }
+.sidebar-cont{
+  background-color: #1f263e;
+
+}
 .sidebarContainer .ps-menu-button {
   color: #fff !important;
 }
@@ -42,4 +46,12 @@
   clip: rect(0, 0, 0, 0);
   white-space: nowrap;
   border-width: 0;
+}
+
+.img-list{
+  width:50px
+}
+
+.home-data{
+  background-color: #F0FFEF;
 }

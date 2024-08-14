@@ -1,13 +1,14 @@
-import React from "react";
+import React, { useContext } from "react";
 import logo from "../../../../assets/images/logo.png";
 import { Link, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
 import styles from "../../auth.module.css";
 import { EmailValidation } from "../../../../constants/VALIDATIONS";
-export default function Login({ saveLoginData }) {
+import { AuthContext } from "../../../../context/AuthContext";
+export default function Login() {
+  let { saveLoginData } = useContext(AuthContext);
   let navigate = useNavigate();
   let {
     register,

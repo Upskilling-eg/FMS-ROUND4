@@ -37,20 +37,20 @@ export default function SideBar() {
               Home
             </MenuItem>
             <MenuItem
-              icon={<i className="fa fa-home" aria-hidden="true"></i>}
+              icon={<i className="fa fa-users" aria-hidden="true"></i>}
               component={<Link to="/dashboard/users" />}
             >
               {" "}
               Users
             </MenuItem>
             <MenuItem
-              icon={<i className="fa fa-home" aria-hidden="true"></i>}
+              icon={<i className="fa fa-list" aria-hidden="true"></i>}
               component={<Link to="/dashboard/recipesList" />}
             >
               Recipes
             </MenuItem>
             <MenuItem
-              icon={<i className="fa fa-home" aria-hidden="true"></i>}
+              icon={ <i className="fa fa-list-alt" aria-hidden="true"></i>}
               component={<Link to="/dashboard/categoriesList" />}
             >
               Categories
@@ -60,7 +60,7 @@ export default function SideBar() {
                 localStorage.removeItem("token");
                 navigate("/login");
               }}
-              icon={<i className="fa fa-arrow-right" aria-hidden="true"></i>}
+              icon={<i className="fa fa-sign-out" aria-hidden="true"></i>}
             >
               Logout
             </MenuItem>
