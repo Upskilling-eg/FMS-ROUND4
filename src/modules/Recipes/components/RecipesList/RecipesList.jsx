@@ -16,6 +16,7 @@ import DeleteConfirmation from "../../../Shared/components/DeleteConfirmation/De
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useNavigate } from "react-router-dom";
+import useRecipesParams from "./useRecipesParams";
 export default function RecipesList() {
   let navigate = useNavigate();
   const [receipesList, setRecipesList] = useState([]);
@@ -24,9 +25,6 @@ export default function RecipesList() {
   const [arrayOfPages, setArrayOfPages] = useState([]);
   const [tagsList, setTagsList] = useState([]);
   const [CategoriesList, setCategoriesList] = useState([]);
-  const [nameValue, setNameValue] = useState("");
-  const [tagValue, setTagValue] = useState("");
-  const [catValue, setCatValue] = useState("");
 
   const handleClose = () => setShow(false);
   const handleShow = (id) => {
@@ -70,22 +68,22 @@ export default function RecipesList() {
       console.log(error);
     }
   };
-  let getRecipesList = async (
-    pageNo,
-    pazeSize,
-    nameInput,
-    tagInput,
-    catInput
-  ) => {
+  let getRecipesList = async ({
+    pageSize = 5,
+    pageNumber = 1,
+    name = "",
+    tagId = "",
+    categoryId = "",
+  } = {}) => {
     try {
       let response = await axios.get(RECIPES_URLS.getList, {
         headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
         params: {
-          pageSize: pazeSize,
-          pageNumber: pageNo,
-          name: nameInput,
-          tagId: tagInput,
-          categoryId: catInput,
+          pageSize: pageSize,
+          pageNumber: pageNumber,
+          name: name,
+          tagId: tagId,
+          categoryId: categoryId,
         },
       });
       setArrayOfPages(
@@ -99,23 +97,16 @@ export default function RecipesList() {
     }
   };
 
-  const getNameValue = (input) => {
-    setNameValue(input.target.value);
-    getRecipesList(1, 2, input.target.value, tagValue, catValue);
-  };
-  const getTagValue = (input) => {
-    setTagValue(input.target.value);
-    getRecipesList(1, 2, nameValue, input.target.value, catValue);
-  };
-  const getCatValue = (input) => {
-    setCatValue(input.target.value);
-    getRecipesList(1, 2, nameValue, tagValue, input.target.value);
-  };
   useEffect(() => {
-    getRecipesList(1, 2);
     getAllTags();
     getCategoriesList();
   }, []);
+
+  const { recipesParams, updateParams } = useRecipesParams();
+  React.useEffect(() => {
+    getRecipesList();
+  }, [recipesParams]);
+
   return (
     <>
       <Header
@@ -153,14 +144,19 @@ export default function RecipesList() {
         <div className="row">
           <div className="col-md-6">
             <input
+              value={recipesParams.name}
+              onChange={(e) => updateParams({ name: e.target.value })}
               type="text"
               placeholder="Search by Name.."
               className="form-control mb-3"
-              onChange={getNameValue}
             />
           </div>
           <div className="col-md-3">
-            <select onChange={getTagValue} className="form-control">
+            <select
+              className="form-control"
+              value={recipesParams.tagId}
+              onChange={(e) => updateParams({ tagId: e.target.value })}
+            >
               <option disabled>select tag</option>
               {tagsList.map((tag) => (
                 <option key={tag.id} value={tag.id}>
@@ -170,7 +166,11 @@ export default function RecipesList() {
             </select>
           </div>
           <div className="col-md-3">
-            <select className="form-control" onChange={getCatValue}>
+            <select
+              className="form-control"
+              value={recipesParams.categoryId}
+              onChange={(e) => updateParams({ categoryId: e.target.value })}
+            >
               <option disabled>select category</option>
 
               {CategoriesList.map((cat) => (
@@ -238,13 +238,13 @@ export default function RecipesList() {
               <span aria-hidden="true">&laquo;</span>
             </a>
           </li>
-          {arrayOfPages.map((pageNo) => (
+          {arrayOfPages.map((pageNumber) => (
             <li
-              key={pageNo}
+              key={pageNumber}
               className="page-item"
-              onClick={() => getRecipesList(pageNo, 2)}
+              onClick={() => updateParams({ pageNumber })}
             >
-              <a className="page-link">{pageNo}</a>
+              <a className="page-link">{pageNumber}</a>
             </li>
           ))}
 
