@@ -12,19 +12,29 @@
 }
 .headerContainer {
   border-radius: 1rem;
-  background-image: url("../src/assets/images//header-circles.svg"),
-    linear-gradient(90deg, rgba(21, 128, 61, 1) 31%, rgba(22, 163, 74, 1) 78%);
+  background-image: linear-gradient(
+    90deg,
+    rgba(21, 128, 61, 1) 31%,
+    rgba(22, 163, 74, 1) 78%
+  );
   background-size: cover;
   background-position: center center;
   color: #fff;
+
+  position: relative;
+  svg {
+    position: absolute;
+    top: 0;
+    width: 100%;
+    height: 100%;
+  }
 }
 .sidebarContainer .ps-sidebar-container {
   background-color: #1f263e;
   height: 100vh;
 }
-.sidebar-cont{
+.sidebar-cont {
   background-color: #1f263e;
-
 }
 .sidebarContainer .ps-menu-button {
   color: #fff !important;
@@ -48,10 +58,10 @@
   border-width: 0;
 }
 
-.img-list{
-  width:50px
+.img-list {
+  width: 50px;
 }
 
-.home-data{
-  background-color: #F0FFEF;
+.home-data {
+  background-color: #f0ffef;
 }
