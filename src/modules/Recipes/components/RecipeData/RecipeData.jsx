@@ -9,12 +9,16 @@ import {
 
 import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
+import useBeforeUnload from "../../../../hooks/useBeforeUnload";
+import usebeforeUnload from "../../../../hooks/useBeforeUnload";
 
 export default function RecipeData() {
   let {
     register,
     handleSubmit,
+    getValues,
     formState: { errors },
+    reset,
   } = useForm();
   let navigate = useNavigate();
   const [tagsList, setTagsList] = useState([]);
@@ -64,15 +68,38 @@ export default function RecipeData() {
       navigate("/dashboard/recipesList");
       toast.success(response.data.message);
       console.log(response);
+      localStorage.removeItem("recipe-data");
     } catch (error) {
       console.log(error);
     }
   };
 
   useEffect(() => {
-    getAllTags();
-    getCategoriesList();
+    const getTagsAndCateories = async () => {
+      await getAllTags();
+      await getCategoriesList();
+
+      const storedData = JSON.parse(localStorage.getItem("recipe-data"));
+      reset(storedData);
+    };
+
+    getTagsAndCateories();
   }, []);
+
+  // before un load
+  // React.useEffect(() => {
+  //
+  //   window.addEventListener("beforeunload", beforeUnload);
+  //   return () => {
+  //     window.removeEventListener("beforeunload", beforeUnload);
+  //   };
+  // }, []);
+
+  const beforeUnload = React.useCallback((e) => {
+    localStorage.setItem("recipe-data", JSON.stringify(getValues()));
+  }, []);
+
+  usebeforeUnload(beforeUnload);
 
   return (
     <>
@@ -167,7 +194,16 @@ export default function RecipeData() {
         {errors.recipeImage && (
           <span className="text-danger">{errors.recipeImage.message}</span>
         )}
-        <button className="btn btn-outline-success mx-3">Cancel</button>
+        <button
+          className="btn btn-outline-success mx-3"
+          type="button"
+          onClick={() => {
+            navigate(-1);
+            localStorage.removeItem("recipe-data");
+          }}
+        >
+          Cancel
+        </button>
         <button className="btn btn-success">Save</button>
       </form>
     </>
