@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import reactLogo from "./assets/react.svg";
 import viteLogo from "/vite.svg";
 import "./App.css";
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import { createBrowserRouter, createHashRouter, RouterProvider } from "react-router-dom";
 import AuthLayout from "./modules/Shared/components/AuthLayout/AuthLayout";
 import Login from "./modules/Authentication/components/Login/Login";
 import ForgetPass from "./modules/Authentication/components/ForgetPass/ForgetPass";
@@ -22,7 +22,7 @@ import VerifyAccount from "./modules/Authentication/components/VerifyAccount/Ver
 import Favourtites from "./modules/Recipes/components/Favourtites/Favourtites";
 function App() {
 
-  const routes = createBrowserRouter([
+  const routes = createHashRouter([
     {
       path: "",
       element: <AuthLayout />,
