@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import Header from "../../../Shared/components/Header/Header";
 import headerBg from "../../../../assets/images/header.png";
 import {
@@ -6,6 +6,7 @@ import {
   CATEGORIES_URLS,
   GETALLTAGS,
   RECIPES_URLS,
+  USER_RECIPES_URLS,
 } from "../../../../constants/END_POINTS";
 import axios from "axios";
 import NoData from "../../../Shared/components/NoData/NoData";
@@ -16,8 +17,11 @@ import DeleteConfirmation from "../../../Shared/components/DeleteConfirmation/De
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useNavigate } from "react-router-dom";
+import { AuthContext } from "../../../../context/AuthContext";
 export default function RecipesList() {
   let navigate = useNavigate();
+  let { loginData } = useContext(AuthContext);
+
   const [receipesList, setRecipesList] = useState([]);
   const [show, setShow] = useState(false);
   const [recipeId, setRecipeId] = useState(0);
@@ -70,6 +74,22 @@ export default function RecipesList() {
       console.log(error);
     }
   };
+
+  let addToFav = async (id) => {
+    try {
+      let response = await axios.post(
+        USER_RECIPES_URLS.addToFav,
+        { recipeId: id },
+        {
+          headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
+        }
+      );
+      console.log(response);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   let getRecipesList = async (
     pageNo,
     pazeSize,
@@ -141,12 +161,16 @@ export default function RecipesList() {
           <h4>Recipes Table Details</h4>
           <span>You can check all details</span>
         </div>
-        <button
-          className="btn btn-success"
-          onClick={() => navigate("/dashboard/recipe-data")}
-        >
-          Add new recipe
-        </button>
+        {loginData?.userGroup == "SuperAdmin" ? (
+          <button
+            className="btn btn-success"
+            onClick={() => navigate("/dashboard/recipe-data")}
+          >
+            Add new recipe
+          </button>
+        ) : (
+          ""
+        )}
       </div>
 
       <div className="table-container p-3">
@@ -190,7 +214,11 @@ export default function RecipesList() {
                 <th scope="col">Price</th>
                 <th scope="col">Description</th>
                 <th scope="col">Tag</th>
-                <th scope="col"></th>
+                {loginData?.userGroup == "SuperAdmin" ? (
+                  <th scope="col"></th>
+                ) : (
+                  ""
+                )}
               </tr>
             </thead>
             <tbody>
@@ -211,18 +239,27 @@ export default function RecipesList() {
                   <td>{recipe.price}</td>
                   <td>{recipe.description}</td>
                   <td>{recipe.tag.name}</td>
-
-                  <td>
-                    <i
-                      className="fa fa-edit text-warning mx-3"
-                      aria-hidden="true"
-                    ></i>
-                    <i
-                      onClick={() => handleShow(recipe.id)}
-                      className="fa fa-trash text-danger"
-                      aria-hidden="true"
-                    ></i>
-                  </td>
+                  {loginData?.userGroup == "SuperAdmin" ? (
+                    <td>
+                      <i
+                        className="fa fa-edit text-warning mx-3"
+                        aria-hidden="true"
+                      ></i>
+                      <i
+                        onClick={() => handleShow(recipe.id)}
+                        className="fa fa-trash text-danger"
+                        aria-hidden="true"
+                      ></i>
+                    </td>
+                  ) : (
+                    <td>
+                      <i
+                        onClick={() => addToFav(recipe.id)}
+                        className="fa fa-heart text-danger mx-3"
+                        aria-hidden="true"
+                      ></i>
+                    </td>
+                  )}
                 </tr>
               ))}
             </tbody>

@@ -10,7 +10,7 @@ export const USERS_URLS = {
   delete: (id) => `${BASE_USERS}/${id}`,
   resetRequest: `${BASE_USERS}/Reset/Request`,
   reset: `${BASE_USERS}/Reset`,
-  verify : `${BASE_USERS}/verify`,
+  verify: `${BASE_USERS}/verify`,
 };
 
 //CATEGORIES URLs
@@ -35,3 +35,11 @@ export const RECIPES_URLS = {
 };
 
 export const GETALLTAGS = `${BASE_URL}/tag`
+
+const USERECIPE = `${BASE_URL}/userRecipe`;
+
+export const USER_RECIPES_URLS = {
+  getList: `${USERECIPE}`,
+  addToFav: `${USERECIPE}`,
+  removeFromFav: (id) => `${USERECIPE}/${id}`,
+};

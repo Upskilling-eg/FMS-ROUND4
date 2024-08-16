@@ -19,6 +19,7 @@ import { jwtDecode } from "jwt-decode";
 import ProtectedRoute from "./modules/Shared/components/ProtectedRoute/ProtectedRoute";
 import RecipeData from "./modules/Recipes/components/RecipeData/RecipeData";
 import VerifyAccount from "./modules/Authentication/components/VerifyAccount/VerifyAccount";
+import Favourtites from "./modules/Recipes/components/Favourtites/Favourtites";
 function App() {
 
   const routes = createBrowserRouter([
@@ -50,6 +51,7 @@ function App() {
         { path: "recipesList", element: <RecipesList /> },
         { path: "recipe-data", element: <RecipeData /> },
         { path: "categoriesList", element: <CategoriesList /> },
+        { path: "favourites", element: <Favourtites /> },
         { path: "users", element: <UsersList /> },
       ],
     },
